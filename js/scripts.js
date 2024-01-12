@@ -105,7 +105,7 @@ function createQuestion(i){
         letterBtn.textContent = letters[i];
         answerText.textContent = answer['answer'];
 
-        answerTemplate.setAttribute("correct-anser", answer["correct"]);
+        answerTemplate.setAttribute("correct-answer", answer["correct"]);
 
         answerTemplate.classList.remove("hide");
         answerTemplate.classList.remove("answer-template");
@@ -115,7 +115,7 @@ function createQuestion(i){
 
         //Insere um evento de click no botão
         answerTemplate.addEventListener("click", function(){
-            console.log("clicou");
+            checkAnswer(this);
         });
 
     });
@@ -123,6 +123,43 @@ function createQuestion(i){
     //Incrementa o número da questão
     actualQuestion++;
 }
+
+//Verifica a resposta do usuário
+function checkAnswer(btn) {
+
+    const buttons = answersBox.querySelectorAll("button");
+
+    //Verifica se a resposta está correta e adiciona classes nos botões
+    buttons.forEach(function(button) {
+        if(button.getAttribute("correct-answer") === "true") {
+            button.classList.add("correct-answer");
+
+          //Checa se o usuário acertou a pergunta
+            if(btn === button) {
+              points++;
+              console.log(points);
+            }
+        } else {
+            button.classList.add("wrong-answer"); 
+        }
+    });
+
+    //Exibe a próxima pergunta
+    nextQuestion()
+}
+
+function nextQuestion() {
+    //Timer para usuário ver as respostas
+    setTimeout(function() {
+        //Verifica se ainda há perguntas
+        if(actualQuestion >= questions.length) {
+            //Apresenta mensagem de sucesso
+            
+        }
+        createQuestion(actualQuestion);
+    }, 1500)
+}
+
 
 //Inicia o quizz
 init();
