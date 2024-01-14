@@ -137,7 +137,6 @@ function checkAnswer(btn) {
           //Checa se o usuário acertou a pergunta
             if(btn === button) {
               points++;
-              console.log(points);
             }
         } else {
             button.classList.add("wrong-answer"); 
@@ -154,11 +153,47 @@ function nextQuestion() {
         //Verifica se ainda há perguntas
         if(actualQuestion >= questions.length) {
             //Apresenta mensagem de sucesso
+            showSuccessMessage();
+            return;
             
         }
         createQuestion(actualQuestion);
     }, 1500)
 }
+
+//Exibe a tela final
+function showSuccessMessage() {
+    
+    hideOrShowQuizz();
+
+    //Calcula o score
+    const score = ((points / questions.length)*100).toFixed(2);
+    const displayScore = document.querySelector("#display-score span");
+    displayScore.textContent = score.toString();
+
+    // Altera o número de perguntas corretas
+    const correctAnswers = document.querySelector("#correct-answers");
+    correctAnswers.textContent = points;
+
+    // Altera o total de perguntas
+    const totalQuestions = document.querySelector("#questions-qty");
+    totalQuestions.textContent = questions.length;
+}
+
+function hideOrShowQuizz() {
+    quizzContainer.classList.toggle("hide");
+    scoreContainer.classList.toggle("hide");
+}
+
+// Reinicia o quizz
+const restartBtn = document.querySelector("#restart");
+restartBtn.addEventListener("click", function() {
+    //Zera o jogo
+    actualQuestion = 0;
+    points = 0;
+    hideOrShowQuizz();
+    init();
+})
 
 
 //Inicia o quizz
